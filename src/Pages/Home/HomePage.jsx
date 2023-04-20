@@ -1,5 +1,4 @@
 import React from "react";
-import "../../App.css";
 import { Card } from "flowbite-react";
 import { Button } from "flowbite-react";
 import Typewriter from "../../components/Typewriter";
@@ -192,7 +191,7 @@ export default function HomePage() {
             <h5 className="text-[30px] leading-[30px] font-inter font-extrabold tracking-none text-white-900 dark:text-white">
               <p className="text-left">Different formats of the word cloud</p>
             </h5>
-            <p className="font-inter text-[18px] leading-[27px] pb-[3rem] text-[#9CA3AF] dark:text-gray-400">
+            <p className="font-inter text-[18px] leading-[27px]  pb-[3rem] text-[#9CA3AF] dark:text-gray-400">
               <p className="text-left">
                 The generated word clouds can be exported in a variety of
                 popular image formats. This makes it easier to export and use

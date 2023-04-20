@@ -1,7 +1,6 @@
 import { Navbar } from "flowbite-react";
 import { NavLink } from "react-router-dom";
 import { Button } from "flowbite-react";
-import "../App.css";
 import logo from "/logo.svg";
 import React from "react";
 
