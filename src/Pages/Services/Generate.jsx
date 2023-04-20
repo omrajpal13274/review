@@ -2,6 +2,7 @@ import { useState } from "react";
 import React from "react";
 import ReactWordcloud from "react-wordcloud";
 import svgElement from "/news.svg";
+import html2canvas from "html2canvas";
 import {
   Dropdown,
   TextInput,
@@ -10,35 +11,65 @@ import {
   Alert,
   Spinner,
   Card,
+  Toast,
 } from "flowbite-react";
 import {
   HiInformationCircle,
   HiOutlineSave,
   HiOutlineRefresh,
+  HiCheck,
 } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
+import jsPDF from "jspdf";
+
 const Generate = () => {
+  const divRef = React.useRef(null);
   const [words, setWords] = useState("");
   const [options, setOptions] = useState("");
   const [size, setSize] = useState("");
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
+  const [fileFormat, setFormat] = useState(false);
   const [error, setError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+
   const [formData, setFormData] = useState({
     product_url: "",
     image_type: "",
   });
-  const handleRefresh = (event) => {
-    setModal(false);
-    setFormData({
-      product_url: "",
+
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
+  const handleExport = () => {
+    html2canvas(divRef.current).then((canvas) => {
+      const option = formData.image_type;
+      if (option == "PNG") {
+        const imgData = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = "download.png";
+        link.href = imgData;
+        link.click();
+      } else if (option == "JPEG") {
+        const imgData = canvas.toDataURL("image/jpeg");
+        const link = document.createElement("a");
+        link.download = "download.jpeg";
+        link.href = imgData;
+        link.click();
+      } else if (option == "PDF") {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save("download.pdf");
+      } else {
+        alert("Select a valid image format!");
+      }
     });
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -64,70 +95,18 @@ const Generate = () => {
         setOptions({
           enableTooltip: false,
           rotations: 2,
-          padding: 3,
-          rotationAngles: [0, 90],
-          // scale: "sqrt",
+          padding: 4,
+          deterministic: true,
+          rotationAngles: [-90, 0],
+          fontSizes: [14, 36],
+          fontWeight: "normal",
           fontFamily: "inter",
           spiral: "rectangular",
         });
-        setSize([800, 400]);
-        const words = [
-          { text: "abundant", value: 9 },
-          { text: "brisk", value: 7 },
-          { text: "capricious", value: 4 },
-          { text: "dainty", value: 8 },
-          { text: "eloquent", value: 9 },
-          { text: "fickle", value: 3 },
-          { text: "gleaming", value: 7 },
-          { text: "hearty", value: 6 },
-          { text: "impartial", value: 8 },
-          { text: "jovial", value: 7 },
-          { text: "keen", value: 6 },
-          { text: "luminous", value: 5 },
-          { text: "magnificent", value: 10 },
-          { text: "naive", value: 2 },
-          { text: "optimistic", value: 9 },
-          { text: "peaceful", value: 8 },
-          { text: "quirky", value: 5 },
-          { text: "radiant", value: 6 },
-          { text: "serene", value: 7 },
-          { text: "tranquil", value: 8 },
-          { text: "upbeat", value: 6 },
-          { text: "versatile", value: 7 },
-          { text: "whimsical", value: 5 },
-          { text: "zealous", value: 9 },
-          { text: "adaptable", value: 7 },
-          { text: "blissful", value: 8 },
-          { text: "candid", value: 6 },
-          { text: "daring", value: 7 },
-          { text: "eclectic", value: 6 },
-          { text: "flourishing", value: 8 },
-          { text: "gracious", value: 9 },
-          { text: "harmonious", value: 7 },
-          { text: "innovative", value: 8 },
-          { text: "jubilant", value: 9 },
-          { text: "kind-hearted", value: 8 },
-          { text: "lively", value: 7 },
-          { text: "meticulous", value: 6 },
-          { text: "nurturing", value: 9 },
-          { text: "optimized", value: 7 },
-          { text: "playful", value: 5 },
-          { text: "quality", value: 8 },
-          { text: "resilient", value: 7 },
-          { text: "sturdy", value: 6 },
-          { text: "tenacious", value: 9 },
-          { text: "unwavering", value: 8 },
-          { text: "vibrant", value: 7 },
-          { text: "warm-hearted", value: 9 },
-          { text: "youthful", value: 6 },
-          { text: "zealot", value: 5 },
-          { text: "astonishing", value: 9 },
-          { text: "benevolent", value: 8 },
-          { text: "curious", value: 7 },
-          { text: "determined", value: 9 },
-          { text: "energetic", value: 8 },
-          { text: "flamboyant", value: 6 },
-        ];
+        setSize([1200, 500]);
+
+        const words = response.data;
+
         setWords(words);
       })
       .catch((error) => {
@@ -143,14 +122,18 @@ const Generate = () => {
           }, 5000);
         } else {
           setError(true);
-          setErrorMessage(error.response.data.detail);
+          if (error.message == "Network Error") {
+            setErrorMessage("Server Error!");
+          } else {
+            setErrorMessage(error.response.data.detail);
+          }
         }
       });
   };
 
   return (
-    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-      <div class="my-[16vh] inline-flex justify-between items-center py-1 px-1 pr-4 mb-7">
+    <div class="py-6 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+      <div class="my-[12vh] inline-flex justify-between items-center py-1 px-1 pr-4 mb-7">
         <a href="/about">
           <img src={svgElement} />
         </a>
@@ -172,8 +155,22 @@ const Generate = () => {
         be copied <br />
         directly from the share product option given below the product.
       </p>
+
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-3 mt-[54px]">
+        <div className="flex flex-row items-center justify-center mt-[54px]">
+          {fileFormat && (
+            <Toast>
+              <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+                <HiCheck className="h-5 w-5" />
+              </div>
+              <div className="ml-3 text-sm font-normal">
+                {formData.image_type} selected.
+              </div>
+              <Toast.Toggle />
+            </Toast>
+          )}
+        </div>
+        <div className="grid grid-cols-3 mt-[34px]">
           <div className="ml-[1rem] justify-self-end" dir="ltr">
             <Badge
               className="
@@ -202,17 +199,35 @@ const Generate = () => {
               dismissOnClick={true}
               id="drops"
               value={formData.image_type}
-              onChange={(event) =>
-                setFormData({ ...formData, image_type: event.target.value })
-              }
             >
-              <Dropdown.Item>PNG</Dropdown.Item>
-              <Dropdown.Item>PDF</Dropdown.Item>
-              <Dropdown.Item>JPEG</Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setFormData({ ...formData, image_type: "PNG" });
+                  setFormat(true);
+                }}
+              >
+                PNG
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setFormData({ ...formData, image_type: "PDF" });
+                  setFormat(true);
+                }}
+              >
+                PDF
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setFormData({ ...formData, image_type: "JPEG" });
+                  setFormat(true);
+                }}
+              >
+                JPEG
+              </Dropdown.Item>
             </Dropdown>
           </div>
         </div>
-        <div className="flex mt-[72px] items-center justify-center">
+        <div className="flex mt-[42px] items-center justify-center">
           <div className="text-center">
             {!isLoading && !modal && (
               <Button
@@ -243,12 +258,19 @@ const Generate = () => {
                     Here is the Generated Word Cloud
                   </p>
                 </h5>
-                <p className="bg-[#fafcf8] font-inter text-[18px] leading-[27px] p-[3rem] text-[#9CA3AF] dark:text-gray-400">
-                  <ReactWordcloud words={words} options={options} size={size} />
-                </p>
+
+                <div ref={divRef}>
+                  <p className="bg-[#fafcf8] font-inter text-[18px] leading-[27px] p-[3rem] text-[#9CA3AF] dark:text-gray-400">
+                    <ReactWordcloud
+                      words={words}
+                      options={options}
+                      size={size}
+                    />
+                  </p>
+                </div>
                 <Button
                   className="inline-flex items-center justify-center my-5 px-5 py-3 mr-3 text-inter font-normal text-center text-white rounded-lg bg-[#558EFF] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 text-[#1E1E1E] !bg-[#558EFF]"
-                  href="/generate"
+                  onClick={handleExport}
                 >
                   <span className="text-[18px] pr-2">
                     Export Your Word Cloud
