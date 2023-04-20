@@ -60,10 +60,15 @@ const Generate = () => {
         link.href = imgData;
         link.click();
       } else if (option == "PDF") {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save("download.pdf");
+        var doc = new jsPDF("landscape");
+        var imgData = canvas.toDataURL("image/png");
+
+        var imgWidth = doc.internal.pageSize.getWidth(); // resizing factors
+        var imgHeight = doc.internal.pageSize.getHeight();
+
+        doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+        doc.save(Date.now() + ".pdf");
       } else {
         alert("Select a valid image format!");
       }
