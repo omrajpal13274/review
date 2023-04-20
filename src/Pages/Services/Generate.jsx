@@ -80,7 +80,10 @@ const Generate = () => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-3 mt-[54px]">
           <div className="ml-[1rem] justify-self-end" dir="ltr">
-            <Badge className="w-[151px] gap-[8px] py-[10px] px-[20px] pl-[2.5rem] h-[44px] bg-[#F3F4F6] text-[14px] items-center !text-center text-montserrat !text-normal text-[#111928] rounded-s-lg">
+            <Badge
+              className="
+            !w-[151px] !h-[42px] gap-[8px] py-[10px] px-[20px] pl-[2.5rem] bg-[#F3F4F6] text-[14px] items-center !text-center text-montserrat !text-normal text-[#111928] rounded-s-lg"
+            >
               Amazon Link 🇮🇳
             </Badge>
           </div>
@@ -90,7 +93,7 @@ const Generate = () => {
               name="product_url"
               id="product_url"
               placeholder="amazon.in"
-              class="bg-[#F9FAFB] border h-[44px] border-[#F9FAFB] text-black placeholder-grey-900 sm:text-sm block w-full p-2.5"
+              class="bg-[#F9FAFB] border !h-[42px] border-[#F9FAFB] text-black placeholder-grey-900 sm:text-sm block w-full p-2.5"
               value={formData.product_url}
               onChange={(event) =>
                 setFormData({ ...formData, product_url: event.target.value })
