@@ -151,9 +151,8 @@ const Generate = () => {
       </h1>
 
       <p class="pt-8 mt-[12px] text-[24px] leading-[36px] font-montserrat font-normal text-[#5890FF]">
-        The Product link can be found in the search bar of your browser or can
-        be copied <br />
-        directly from the share product option given below the product.
+        Grab the product link which can be found in the <br />
+        search bar of your browser and start exploring
       </p>
 
       <form onSubmit={handleSubmit}>
