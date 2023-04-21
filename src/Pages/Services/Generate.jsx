@@ -136,7 +136,7 @@ const Generate = () => {
           rotations: 2,
           padding: 4,
           deterministic: true,
-          rotationAngles: [0, 0],
+          rotationAngles: [-90, 0],
           fontSizes: [14, 36],
           fontWeight: "black",
           fontFamily: "montserrat",
