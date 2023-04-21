@@ -35,6 +35,35 @@ const Generate = () => {
   const [error, setError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // setting color values
+  const vibrantColors = {
+    orange: "#FF851B",
+    yellow: "#FFDC00",
+    green: "#2ECC40",
+    blue: "#0074D9",
+    purple: "#B10DC9",
+    pink: "#FF4136",
+    teal: "#39CCCC",
+    magenta: "#FF00FF",
+    lime: "#01FF70",
+    cyan: "#00FFFF",
+    indigo: "#4B0082",
+  };
+
+  const callbacks = {
+    getWordColor: (word) => {
+      if (word.value < 0) {
+        return "red";
+      } else if (word.value > 50) {
+        const colors = Object.values(vibrantColors);
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        return randomColor;
+      } else {
+        return "blue";
+      }
+    },
+  };
+
   const [formData, setFormData] = useState({
     product_url: "",
     image_type: "",
@@ -107,13 +136,13 @@ const Generate = () => {
           rotations: 2,
           padding: 4,
           deterministic: true,
-          rotationAngles: [-90, 0],
+          rotationAngles: [0, 0],
           fontSizes: [14, 36],
-          fontWeight: "normal",
-          fontFamily: "inter",
+          fontWeight: "black",
+          fontFamily: "montserrat",
           spiral: "rectangular",
         });
-        setSize([1200, 500]);
+        setSize([1200, 1000]);
 
         const words = response.data;
 
@@ -200,6 +229,7 @@ const Generate = () => {
                 setFormData({ ...formData, product_url: event.target.value })
               }
               required={true}
+              autoComplete="off"
             />
           </div>
           <div className="justify-self-start">
@@ -271,6 +301,7 @@ const Generate = () => {
                 <div ref={divRef}>
                   <p className="bg-[#fafcf8] font-inter text-[18px] leading-[27px] p-[3rem] text-[#9CA3AF] dark:text-gray-400">
                     <ReactWordcloud
+                      callbacks={callbacks}
                       words={words}
                       options={options}
                       size={size}

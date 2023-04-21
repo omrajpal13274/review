@@ -152,6 +152,7 @@ export default function Login() {
                       value={values.email}
                       onChange={handleChange}
                       required={true}
+                      autoComplete="off"
                     />
                   </div>
                   <div>
@@ -170,6 +171,7 @@ export default function Login() {
                       value={values.password}
                       onChange={handleChange}
                       required={true}
+                      autoComplete="off"
                     />
                   </div>
                   <div className="flex items-center justify-between">

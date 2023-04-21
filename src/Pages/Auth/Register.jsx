@@ -155,6 +155,7 @@ const Register = () => {
                       value={values.first_name}
                       onChange={handleChange}
                       required={true}
+                      autoComplete="off"
                     />
                   </div>
                   <div>
@@ -172,6 +173,7 @@ const Register = () => {
                       value={values.last_name}
                       onChange={handleChange}
                       required={true}
+                      autoComplete="off"
                     />
                   </div>
                   <div>
@@ -189,6 +191,7 @@ const Register = () => {
                       value={values.email}
                       onChange={handleChange}
                       required={true}
+                      autoComplete="off"
                     />
                   </div>
                   <div>
@@ -207,6 +210,7 @@ const Register = () => {
                       value={values.password}
                       onChange={handleChange}
                       required={true}
+                      autoComplete="off"
                     />
                   </div>
 
