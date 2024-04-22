@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import ReactWordcloud from "react-wordcloud";
+import ReactWordcloud from "@cyberblast/react-wordcloud";
 import svgElement from "/news.svg";
 import html2canvas from "html2canvas";
 import {
