@@ -76,7 +76,7 @@ const Register = () => {
           <h1 class="mb-[1rem] text-[60px] leading-[60px] pt-2 font-inter font-extrabold tracking-normal leading-10 text-[#FFFFFF]">
             <div class="text-left pl-[80px]">
               Create a New
-              <br /> Review<span className="text-[#558EFF]">Viz</span> account
+              <br /> Review<span className="text-[#558EFF]">Realm</span> account
             </div>
           </h1>
           <div>
@@ -84,7 +84,7 @@ const Register = () => {
               <div className="text-left pl-[80px]">
                 Empower your purchasing decisions and sales strategy with
                 <br />
-                <span className="text-[#558EFF]">ReviewViz</span> - where
+                <span className="text-[#558EFF]">ReviewRealm</span> - where
                 product analysis meets convenience!
               </div>
             </p>

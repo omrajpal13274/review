@@ -11,8 +11,8 @@ const FooterComponent = () => {
       <div className="w-full text-center ">
         <Footer.Copyright
           href="/"
-          by="Made with ❤ by Bits, Please!"
-          year={2023}
+          by="Made with ❤"
+          year={2024}
         />
       </div>
     </Footer>

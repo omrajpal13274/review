@@ -26,12 +26,12 @@ export default function NavbarComponent() {
       }}
     >
       <Navbar.Brand href="/">
-        <img src={logo} className="mr-3 h-6 sm:h-9" alt="ReviewViz Logo" />
+        <img src={logo} className="mr-3 h-6 sm:h-9" alt="ReviewRealm Logo" />
         <span className="self-center whitespace-nowrap font-montserrat text-white text-xl font-normal dark:text-white">
           REVIEW
         </span>
         <span className="self-center whitespace-nowrap font-montserrat font-normal text-[#558EFF] text-xl dark:text-white">
-          VIZ
+          REALM
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
